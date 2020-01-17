@@ -15,7 +15,10 @@ public class LookAtTarget : MonoBehaviour, IRotation
     // Update is called once per frame
     void Update()
     {
-        transform.LookAt(Target);
+
+        transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(Target - transform.position), 0.2f);
+
+        //transform.LookAt(Target);
     }
     public void SetTarget(Vector3 target)
     {
