@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class LookAtTarget : MonoBehaviour, IRotation
 {
-    public Vector3 Target;
+    private Vector3 _target;
 
     // Start is called before the first frame update
     void Start()
@@ -15,14 +15,15 @@ public class LookAtTarget : MonoBehaviour, IRotation
     // Update is called once per frame
     void Update()
     {
-
-        transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(Target - transform.position), 0.2f);
-
-        //transform.LookAt(Target);
+        var distance = Vector3.Distance(_target, transform.position);
+        if (distance > float.Epsilon)
+        {
+            transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(_target - transform.position), 0.2f);
+        }
     }
     public void SetTarget(Vector3 target)
     {
-        Target = target;
+        _target = target;
     }
 
 

@@ -3,15 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
-{
-
-
-
+{ 
     // Update is called once per frame
     void Update()
     {
-
-
         if (Input.GetMouseButton(0))
         {
             var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -22,7 +17,6 @@ public class PlayerMovement : MonoBehaviour
                 if (ground != null)
                 {
                     var movement = GetComponent<IMovement>();
-
 
                     if (movement != null)
                     {
