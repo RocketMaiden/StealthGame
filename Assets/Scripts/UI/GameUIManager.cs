@@ -3,13 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class GameUI : MonoBehaviour
+public class GameUIManager : MonoBehaviour
 {
     public GameObject gameLoseUI;
     public GameObject gameWinUI;
-    public AIVision AIVision;
-    public Finish Finish;
-
 
     bool _gameIsOver = false;
 
@@ -17,8 +14,7 @@ public class GameUI : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        AIVision.OnGuardHasSpottedPlayer += ShowGameLoseUI;
-        Finish.FinishIsTouched += ShowGameWinUI;
+
     }
 
     // Update is called once per frame
@@ -33,25 +29,20 @@ public class GameUI : MonoBehaviour
         }
     }
 
-    void ShowGameWinUI()
+    public void ShowGameWinUI()
     {
         OnGameOver(gameWinUI);
     }
 
-    void ShowGameLoseUI(float visability)
+    public void ShowGameLoseUI()
     {
-        if (Mathf.Approximately(visability, 1))
-        {
-            OnGameOver(gameLoseUI);
-        }
+        OnGameOver(gameLoseUI);
     }
 
     void OnGameOver(GameObject gameOverUI)
     {
         gameOverUI.SetActive(true);
         _gameIsOver = true;
-        AIVision.OnGuardHasSpottedPlayer -= ShowGameLoseUI;
-        Finish.FinishIsTouched -= ShowGameWinUI;
 
     }
 }

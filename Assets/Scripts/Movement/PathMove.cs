@@ -6,30 +6,30 @@ public class PathMove : MonoBehaviour
 {
     int targetIndex;
 
-    public List<Transform> pathHolder = new List<Transform>();
-
     // Start is called before the first frame update
     void Start()
     {
-        targetIndex = 0;        
+        targetIndex = 0;
     }
 
     // Update is called once per frame
     void Update()
     {       
 
-        var movement = GetComponent<IMovement>();
+        var movement = GetComponent<IMovement>();      
         
+        var path = GameManager.GetMapManager().GetPath();
+
         if (movement != null)
         {
             if (movement.IsComplete())
             {
                 targetIndex++;
-                if (targetIndex >= pathHolder.Count)
+                if (targetIndex >= path.Count)
                 {
                     targetIndex = 0;
                 }
-                var target = pathHolder[targetIndex].position;
+                var target = path[targetIndex];
                 movement.SetTarget(target);
                 var rotation = GetComponent<IRotation>();
                 if (rotation != null)
