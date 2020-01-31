@@ -15,6 +15,9 @@ namespace Assets.MVC.Scripts.Guard.Controller
             _guardView = view;
             _guardView.SetPosition(_guardModel.Position);
             _guardView.SetRotation(_guardModel.Rotation);
+            _guardView.SetLightColor(_guardModel.Color);
+            _guardView.SetLightSettings(_guardModel.VisionLength, _guardModel.VisionAngle);
+            
         }
 
         public void Tick()

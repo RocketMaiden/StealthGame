@@ -47,19 +47,20 @@ namespace Assets.MVC.Scripts.Player.Controller
                 float movementSpeed = 3f * Time.deltaTime;
 
 
-
                 if (angle <= rotationSpeed)
                 {
-                    _playerModel.Rotation = rotationTarget;
-                    _playerModel.Position += (_playerModel.Rotation * Vector3.forward) * movementSpeed;
+                    _playerModel.Rotation = rotationTarget;                   
                 }
                 else
                 {
                     _playerModel.Rotation = Quaternion.RotateTowards(_playerModel.Rotation, rotationTarget, rotationSpeed);
-                    _playerModel.Position += (_playerModel.Rotation * Vector3.forward) * movementSpeed * 0.4f;
+
+                    movementSpeed *= 0.4f;
                 }
 
-                
+                _playerModel.Position += (_playerModel.Rotation * Vector3.forward) * movementSpeed;
+
+
 
                 //_playerModel.Position = Vector3.MoveTowards(_playerModel.Position, _playerModel.TargetPosition, movementSpeed * Time.deltaTime);
             }

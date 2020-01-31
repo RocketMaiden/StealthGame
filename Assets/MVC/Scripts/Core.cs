@@ -33,7 +33,9 @@ public class Core : MonoBehaviour
         _guardController = new GuardController();
         _guardController.Initialize(new GuardModel()
         {
-            Color = Color.green,
+            Position = new Vector3(5, 0, 5),
+            TargetPosition = new Vector3(5, 0, 5),
+            Rotation = Quaternion.identity,
             PatrolPath = new List<Vector3>()
             {
                 new Vector3(5,0,5),
@@ -41,13 +43,11 @@ public class Core : MonoBehaviour
                 new Vector3(-5,0,-5),
                 new Vector3(5,0,-5),
             },
-
             CurrentNode = 0,
-            Position = new Vector3(5, 0, 5),
-            TargetPosition = new Vector3(5, 0, 5),
-
-            Rotation = Quaternion.identity,
-
+            VisionLength = 10,
+            VisionAngle = 35,
+            PlayerVisibleTimer = 2,
+            Color = Color.green,                         
         },
         _guardView);
 

@@ -7,5 +7,10 @@ namespace Assets.MVC.Scripts.Guard.View
         void SetPosition(Vector3 position);
 
         void SetRotation(Quaternion rotation);
+
+        void SetLightColor(Color color);
+
+        void SetLightSettings(float visionLength, float visionAngle);
+
     }
 }
