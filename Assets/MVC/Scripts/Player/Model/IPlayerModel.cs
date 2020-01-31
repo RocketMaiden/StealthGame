@@ -2,7 +2,7 @@
 
 namespace Assets.MVC.Scripts.Player.Model
 {
-    public interface IPlayerModel : IMapObjectModel
+    public interface IPlayerModel : IMapMovableModel
     {
     }
 }

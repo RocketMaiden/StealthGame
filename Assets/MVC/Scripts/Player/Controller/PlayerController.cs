@@ -1,5 +1,6 @@
 ﻿
 using Assets.MVC.Scripts.Ground.View;
+using Assets.MVC.Scripts.MapObject;
 using Assets.MVC.Scripts.Player.Model;
 using Assets.MVC.Scripts.Player.View;
 using UnityEngine;
@@ -11,9 +12,16 @@ namespace Assets.MVC.Scripts.Player.Controller
         private IPlayerModel _playerModel;
         private IPlayerView _playerView;
 
-        public void Initialize(IPlayerModel model, IPlayerView view)
+        public PlayerController(PlayerView view)
         {
-            _playerModel = model;
+            _playerModel = PlayerModel.Create();
+
+            _playerModel.Position = new Vector3(0, 0, 0);
+            _playerModel.TargetPosition = _playerModel.Position;
+            _playerModel.Rotation = Quaternion.identity;
+
+            MapObjectStorage.AddMapObject(_playerModel);
+
             _playerView = view;
             _playerView.SetPosition(_playerModel.Position);
             _playerView.SetRotation(_playerModel.Rotation);
@@ -29,7 +37,7 @@ namespace Assets.MVC.Scripts.Player.Controller
                     if (ground != null)
                     {
                         _playerModel.TargetPosition = hitInfo.point;                       
-                       
+
                     }                    
                 }               
             }
@@ -60,9 +68,7 @@ namespace Assets.MVC.Scripts.Player.Controller
 
                 _playerModel.Position += (_playerModel.Rotation * Vector3.forward) * movementSpeed;
 
-
-
-                //_playerModel.Position = Vector3.MoveTowards(_playerModel.Position, _playerModel.TargetPosition, movementSpeed * Time.deltaTime);
+                MapObjectStorage.UpdateMapObject(_playerModel);                
             }
 
            

@@ -9,6 +9,7 @@ using Assets.MVC.Scripts.Guard.View;
 
 using UnityEngine;
 using System.Collections.Generic;
+using Assets.MVC.Scripts.MapObject;
 
 public class Core : MonoBehaviour
 {
@@ -27,29 +28,10 @@ public class Core : MonoBehaviour
 
     private void Awake()
     {
-        _playerController = new PlayerController();
-        _playerController.Initialize(new PlayerModel() { Rotation = Quaternion.identity }, _playerView);
+        _playerController = new PlayerController(_playerView);
 
-        _guardController = new GuardController();
-        _guardController.Initialize(new GuardModel()
-        {
-            Position = new Vector3(5, 0, 5),
-            TargetPosition = new Vector3(5, 0, 5),
-            Rotation = Quaternion.identity,
-            PatrolPath = new List<Vector3>()
-            {
-                new Vector3(5,0,5),
-                new Vector3(-5,0,5),
-                new Vector3(-5,0,-5),
-                new Vector3(5,0,-5),
-            },
-            CurrentNode = 0,
-            VisionLength = 10,
-            VisionAngle = 35,
-            PlayerVisibleTimer = 2,
-            Color = Color.green,                         
-        },
-        _guardView);
+        _guardController = new GuardController(_guardView);    
+        
 
         
     }
