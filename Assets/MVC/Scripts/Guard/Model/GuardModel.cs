@@ -7,12 +7,7 @@ using UnityEngine;
 namespace Assets.MVC.Scripts.Guard.Model
 {
     public struct GuardModel : IGuardModel
-    {       
-        public static GuardModel Create()
-        {
-            var model = new GuardModel(Vector3.zero, Quaternion.identity);            
-            return model;
-        }
+    {
         public Guid Guid { get; private set; }
 
         public MapObjectType MapObjectType { get; private set; }
@@ -23,7 +18,7 @@ namespace Assets.MVC.Scripts.Guard.Model
         public int CurrentNode { get; set; }
         public float VisionLength { get; set; }
         public float VisionAngle { get; set; }
-        public float PlayerVisibleTimer { get; set; }
+       
         public Color Color { get; set; }
 
         public GuardModel(Vector3 position, Quaternion rotation)
@@ -37,8 +32,7 @@ namespace Assets.MVC.Scripts.Guard.Model
             PatrolPath = new List<Vector3>();
             CurrentNode = 0;
             VisionAngle = 0;
-            VisionLength = 0;
-            PlayerVisibleTimer = 0;
+            VisionLength = 0;           
             Color = new Color();
         }
 

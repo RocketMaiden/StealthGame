@@ -1,33 +1,34 @@
 ﻿
 using Assets.MVC.Scripts.Ground.View;
-using Assets.MVC.Scripts.MapObject;
 using Assets.MVC.Scripts.Player.Model;
 using Assets.MVC.Scripts.Player.View;
+using System;
 using UnityEngine;
 
 namespace Assets.MVC.Scripts.Player.Controller
 {
     public class PlayerController
     {
-        private IPlayerModel _playerModel;
+        private Guid _modelGuid;
         private IPlayerView _playerView;
 
         public PlayerController(PlayerView view)
         {
-            _playerModel = PlayerModel.Create();
-
-            _playerModel.Position = new Vector3(0, 0, 0);
-            _playerModel.TargetPosition = _playerModel.Position;
-            _playerModel.Rotation = Quaternion.identity;
-
-            MapObjectStorage.AddMapObject(_playerModel);
-
+            _modelGuid = PlayerStorage.CreateModel();
             _playerView = view;
-            _playerView.SetPosition(_playerModel.Position);
-            _playerView.SetRotation(_playerModel.Rotation);
+            
         }
         public void Tick()
         {
+            var model = PlayerStorage.GetItem(_modelGuid);
+
+            var visability = model.PlayerVisibleTimer / model.TimeToSpotPlayer;
+
+            if (Mathf.Approximately(visability, 1f))
+            {
+                Debug.LogWarning("Player Spoted!!!");
+            }
+
             if (Input.GetMouseButton(0))
             {
                 var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -36,45 +37,43 @@ namespace Assets.MVC.Scripts.Player.Controller
                     var ground = hitInfo.transform.gameObject.GetComponent<IGroundView>();
                     if (ground != null)
                     {
-                        _playerModel.TargetPosition = hitInfo.point;                       
+                        model.TargetPosition = hitInfo.point;
 
-                    }                    
-                }               
-            }
+                    }
+                }
+            }            
 
-            if(Vector3.Distance(_playerModel.TargetPosition, _playerModel.Position) > 0.2f)
+            if(Vector3.Distance(model.TargetPosition, model.Position) > 0.2f)
             {
-                Vector3 forward = _playerModel.TargetPosition - _playerModel.Position;
+                Vector3 forward = model.TargetPosition - model.Position;
 
                 var rotationTarget = Quaternion.LookRotation(forward);
 
-                var angle = Quaternion.Angle(_playerModel.Rotation, rotationTarget);
+                var angle = Quaternion.Angle(model.Rotation, rotationTarget);
 
                 float rotationSpeed = 270f * Time.deltaTime;
 
-                float movementSpeed = 3f * Time.deltaTime;
+                float movementSpeed = 5f * Time.deltaTime;
 
 
                 if (angle <= rotationSpeed)
                 {
-                    _playerModel.Rotation = rotationTarget;                   
+                    model.Rotation = rotationTarget;                   
                 }
                 else
                 {
-                    _playerModel.Rotation = Quaternion.RotateTowards(_playerModel.Rotation, rotationTarget, rotationSpeed);
+                    model.Rotation = Quaternion.RotateTowards(model.Rotation, rotationTarget, rotationSpeed);
 
                     movementSpeed *= 0.4f;
                 }
 
-                _playerModel.Position += (_playerModel.Rotation * Vector3.forward) * movementSpeed;
-
-                MapObjectStorage.UpdateMapObject(_playerModel);                
+                model.Position += (model.Rotation * Vector3.forward) * movementSpeed;                              
             }
 
-           
+            PlayerStorage.UpdateItem(model);
 
-            _playerView.SetRotation(_playerModel.Rotation);
-            _playerView.SetPosition(_playerModel.Position);
+            _playerView.SetRotation(model.Rotation);
+            _playerView.SetPosition(model.Position);
         }        
        
     }
