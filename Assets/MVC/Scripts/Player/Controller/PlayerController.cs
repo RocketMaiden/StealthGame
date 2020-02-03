@@ -27,47 +27,51 @@ namespace Assets.MVC.Scripts.Player.Controller
             if (Mathf.Approximately(visability, 1f))
             {
                 Debug.LogWarning("Player Spoted!!!");
+                model.IsSpotted = true;
             }
 
-            if (Input.GetMouseButton(0))
+            if (!model.IsSpotted)
             {
-                var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-                if (Physics.Raycast(ray, out RaycastHit hitInfo))
+                if (Input.GetMouseButton(0))
                 {
-                    var ground = hitInfo.transform.gameObject.GetComponent<IGroundView>();
-                    if (ground != null)
+                    var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                    if (Physics.Raycast(ray, out RaycastHit hitInfo))
                     {
-                        model.TargetPosition = hitInfo.point;
+                        var ground = hitInfo.transform.gameObject.GetComponent<IGroundView>();
+                        if (ground != null)
+                        {
+                            model.TargetPosition = hitInfo.point;
 
+                        }
                     }
                 }
-            }            
 
-            if(Vector3.Distance(model.TargetPosition, model.Position) > 0.2f)
-            {
-                Vector3 forward = model.TargetPosition - model.Position;
-
-                var rotationTarget = Quaternion.LookRotation(forward);
-
-                var angle = Quaternion.Angle(model.Rotation, rotationTarget);
-
-                float rotationSpeed = 270f * Time.deltaTime;
-
-                float movementSpeed = 5f * Time.deltaTime;
-
-
-                if (angle <= rotationSpeed)
+                if (Vector3.Distance(model.TargetPosition, model.Position) > 0.2f)
                 {
-                    model.Rotation = rotationTarget;                   
-                }
-                else
-                {
-                    model.Rotation = Quaternion.RotateTowards(model.Rotation, rotationTarget, rotationSpeed);
+                    Vector3 forward = model.TargetPosition - model.Position;
 
-                    movementSpeed *= 0.4f;
-                }
+                    var rotationTarget = Quaternion.LookRotation(forward);
 
-                model.Position += (model.Rotation * Vector3.forward) * movementSpeed;                              
+                    var angle = Quaternion.Angle(model.Rotation, rotationTarget);
+
+                    float rotationSpeed = 270f * Time.deltaTime;
+
+                    float movementSpeed = 5f * Time.deltaTime;
+
+
+                    if (angle <= rotationSpeed)
+                    {
+                        model.Rotation = rotationTarget;
+                    }
+                    else
+                    {
+                        model.Rotation = Quaternion.RotateTowards(model.Rotation, rotationTarget, rotationSpeed);
+
+                        movementSpeed *= 0.4f;
+                    }
+
+                    model.Position += (model.Rotation * Vector3.forward) * movementSpeed;
+                }
             }
 
             PlayerStorage.UpdateItem(model);

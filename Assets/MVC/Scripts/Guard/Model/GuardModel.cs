@@ -21,6 +21,8 @@ namespace Assets.MVC.Scripts.Guard.Model
        
         public Color Color { get; set; }
 
+        public LayerMask LayerMask { get; set; }
+
         public GuardModel(Vector3 position, Quaternion rotation)
         {
             Guid = Guid.NewGuid();
@@ -34,6 +36,7 @@ namespace Assets.MVC.Scripts.Guard.Model
             VisionAngle = 0;
             VisionLength = 0;           
             Color = new Color();
+            LayerMask = default;
         }
 
 

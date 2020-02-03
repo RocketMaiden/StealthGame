@@ -49,8 +49,9 @@ namespace Assets.MVC.Scripts.Guard.Controller
                 var forward = guard.Rotation * Vector3.forward;
                 float angleBetweenMeAndTarget = Vector3.Angle(forward, directionToTarget);
                 if (angleBetweenMeAndTarget < guard.VisionAngle / 2)
-                {
-                    if (!Physics.Linecast(guard.Position, player.Position))
+                {                    
+                    var isObstacle = Physics.Linecast(guard.Position, player.Position, ~(guard.LayerMask));                    
+                    if (!isObstacle)
                     {
                         return true;
                     }

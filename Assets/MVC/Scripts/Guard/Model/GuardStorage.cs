@@ -30,6 +30,8 @@ namespace Assets.MVC.Scripts.Guard.Model
 
             model.Color = Color.green;
 
+            model.LayerMask = LayerMask.NameToLayer("Obstacle");
+
             AddItem(model);            
 
             return model.Guid;
