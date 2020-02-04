@@ -1,4 +1,4 @@
-﻿
+﻿using Assets.MVC.Scripts.Guard.Config;
 using Assets.MVC.Scripts.MapObject;
 using System;
 using System.Collections.Generic;
@@ -9,7 +9,6 @@ namespace Assets.MVC.Scripts.Guard.Model
     public struct GuardModel : IGuardModel
     {
         public Guid Guid { get; private set; }
-
         public MapObjectType MapObjectType { get; private set; }
         public Vector3 Position { get; set; }
         public Vector3 TargetPosition { get; set; }
@@ -17,29 +16,26 @@ namespace Assets.MVC.Scripts.Guard.Model
         public List<Vector3> PatrolPath { get; set; }
         public int CurrentNode { get; set; }
         public float VisionLength { get; set; }
-        public float VisionAngle { get; set; }
-       
+        public float VisionAngle { get; set; }       
         public Color Color { get; set; }
-
         public LayerMask LayerMask { get; set; }
 
-        public GuardModel(Vector3 position, Quaternion rotation)
+        public GuardModel(IGuardConfig config)
         {
             Guid = Guid.NewGuid();
             MapObjectType = MapObjectType.Guard;
-            Position = position;
-            TargetPosition = position;
-            Rotation = rotation;
+            Rotation = Quaternion.identity;
+            Color = Color.green;
 
-            PatrolPath = new List<Vector3>();
-            CurrentNode = 0;
-            VisionAngle = 0;
-            VisionLength = 0;           
-            Color = new Color();
-            LayerMask = default;
+
+            PatrolPath = config.PatrolPath;
+            CurrentNode = config.CurrentNode;
+            Position = config.PatrolPath[config.CurrentNode];
+            TargetPosition = Position;
+            VisionAngle = config.VisionAngle;
+            VisionLength = config.VisionLength;
+            LayerMask = config.LayerMask;
         }
-
-
     }
 }
 

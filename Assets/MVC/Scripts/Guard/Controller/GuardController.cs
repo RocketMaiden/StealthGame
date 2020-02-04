@@ -1,4 +1,5 @@
-﻿using Assets.MVC.Scripts.Guard.Model;
+﻿using Assets.MVC.Scripts.Guard.Config;
+using Assets.MVC.Scripts.Guard.Model;
 using Assets.MVC.Scripts.Guard.View;
 using Assets.MVC.Scripts.MapObject;
 using System;
@@ -11,10 +12,10 @@ namespace Assets.MVC.Scripts.Guard.Controller
         private IGuardView _view;
         private Guid _modelGuid;
 
-        public GuardController(IGuardView view)
+        public GuardController(IGuardConfig config, IGuardView view)
         {
             _view = view;
-            _modelGuid = GuardStorage.CreateModel();
+            _modelGuid = GuardStorage.CreateModel(config);
         }
 
         public void Tick()

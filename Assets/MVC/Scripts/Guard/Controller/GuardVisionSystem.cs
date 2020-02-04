@@ -50,7 +50,7 @@ namespace Assets.MVC.Scripts.Guard.Controller
                 float angleBetweenMeAndTarget = Vector3.Angle(forward, directionToTarget);
                 if (angleBetweenMeAndTarget < guard.VisionAngle / 2)
                 {                    
-                    var isObstacle = Physics.Linecast(guard.Position, player.Position, ~(guard.LayerMask));                    
+                    var isObstacle = Physics.Linecast(guard.Position, player.Position, guard.LayerMask);                    
                     if (!isObstacle)
                     {
                         return true;

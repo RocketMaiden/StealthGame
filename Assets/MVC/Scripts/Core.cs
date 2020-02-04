@@ -9,6 +9,7 @@ using Assets.MVC.Scripts.Finish.View;
 using Assets.MVC.Scripts.Finish.Controller;
 using Assets.MVC.Scripts.GameLoop.View;
 using Assets.MVC.Scripts.GameLoop.Controller;
+using Assets.MVC.Scripts.Guard.Config;
 
 public class Core : MonoBehaviour
 {
@@ -17,6 +18,8 @@ public class Core : MonoBehaviour
 
     [SerializeField]
     private GuardView _guardView = null;
+    [SerializeField]
+    private GuardConfig _guardConfig = null;
 
     [SerializeField]
     private FinishView _finishView = null;
@@ -36,7 +39,7 @@ public class Core : MonoBehaviour
     {
         _playerController = new PlayerController(_playerView);
 
-        _guardController = new GuardController(_guardView);
+        _guardController = new GuardController(_guardConfig, _guardView);
 
         _guardVisionSystem = new GuardVisionSystem();
 
