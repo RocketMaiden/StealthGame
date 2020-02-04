@@ -23,6 +23,11 @@ namespace Assets.MVC.Scripts.Player.Model
 
             return model.Guid;            
         }
+
+        public static void Reset()
+        {
+            _storage = new Dictionary<Guid, IPlayerModel>();
+        }
     }
 
     

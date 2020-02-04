@@ -1,6 +1,9 @@
 ﻿using Assets.MVC.Scripts.Finish.Model;
 using Assets.MVC.Scripts.GameLoop.View;
+using Assets.MVC.Scripts.Guard.Model;
 using Assets.MVC.Scripts.Player.Model;
+using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Assets.MVC.Scripts.GameLoop.Controller
 {
@@ -8,7 +11,7 @@ namespace Assets.MVC.Scripts.GameLoop.Controller
     {
         private IGameLoopView _gameLoopView;
 
-
+        public bool GameIsOver = false;
         public GameLoopController(IGameLoopView view)
         {
             _gameLoopView = view;
@@ -24,6 +27,7 @@ namespace Assets.MVC.Scripts.GameLoop.Controller
                 if (player.IsSpotted)
                 {
                     _gameLoopView.ShowLoseGame();
+                    GameIsOver = true;
                 }
             }
 
@@ -32,8 +36,25 @@ namespace Assets.MVC.Scripts.GameLoop.Controller
                 if (finish.FinishIsTouched)
                 {
                     _gameLoopView.ShowWinGame();
+                    GameIsOver = true;
                 }
             }
+            if(GameIsOver)
+            {
+                //todo reset game by spacebar
+                if (Input.GetKeyDown(KeyCode.Space))
+                {
+                    Restart();                   
+                }
+            }
+        }
+
+        private void Restart()
+        {           
+            PlayerStorage.Reset();
+            GuardStorage.Reset();
+            FinishStorage.Reset();
+            SceneManager.LoadScene(0, LoadSceneMode.Single);
         }
 
     }

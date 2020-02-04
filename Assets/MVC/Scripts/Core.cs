@@ -51,14 +51,18 @@ public class Core : MonoBehaviour
         
     }
 
-    // Update is called once per frame
+    //Update is called once per frame
     void Update()
     {
-        _guardVisionSystem.Tick();
-
-        _playerController.Tick();
-        _guardController.Tick();
-        _finishConroller.Tick();
         _gameLoopController.Tick();
+        if (!_gameLoopController.GameIsOver)
+        {
+            _guardVisionSystem.Tick();
+            _playerController.Tick();
+            _finishConroller.Tick();
+        }
+
+        _guardController.Tick();
+
     }
 }

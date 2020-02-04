@@ -25,7 +25,7 @@ namespace Assets.MVC.Scripts.Guard.Model
             model.Position = model.PatrolPath[model.CurrentNode];
             model.TargetPosition = model.Position;            
 
-            model.VisionAngle = 35;
+            model.VisionAngle = 55;
             model.VisionLength = 10;           
 
             model.Color = Color.green;
@@ -36,5 +36,10 @@ namespace Assets.MVC.Scripts.Guard.Model
 
             return model.Guid;
         }      
+
+        public static void Reset()
+        {
+            _storage = new Dictionary<Guid, IGuardModel>();
+        }
     }
 }

@@ -19,8 +19,11 @@ namespace Assets.MVC.Scripts.Finish.Controller
         }
 
         public void Tick()
-        {         
-
+        {
+            if (!FinishStorage.ContainsItem(_modelGuid))
+            {
+                return;
+            }
             var model = FinishStorage.GetItem(_modelGuid);
             if (model.FinishIsTouched)
             {

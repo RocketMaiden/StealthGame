@@ -23,5 +23,10 @@ namespace Assets.MVC.Scripts.Finish.Model
 
             return model.Guid;
         }
+
+        public static void Reset()
+        {
+            _storage = new Dictionary<Guid, IFinishModel>();
+        }
     }
 }

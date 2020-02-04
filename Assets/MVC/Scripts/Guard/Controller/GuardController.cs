@@ -19,6 +19,10 @@ namespace Assets.MVC.Scripts.Guard.Controller
 
         public void Tick()
         {
+            if (!GuardStorage.ContainsItem(_modelGuid))
+            {
+                return;
+            }
             var model = GuardStorage.GetItem(_modelGuid);
 
             float movementSpeed = 2f * Time.deltaTime;

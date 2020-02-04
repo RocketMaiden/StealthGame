@@ -6,9 +6,9 @@ namespace Assets.MVC.Scripts.GameLoop.View
     public class GameLoopView : MonoBehaviour, IGameLoopView
     {
         [SerializeField]
-        private GameObject loseGamePopup;
+        private GameObject loseGamePopup = null;
         [SerializeField]
-        private GameObject winGamePopUp;
+        private GameObject winGamePopUp = null;
 
         public void ShowLoseGame()
         {

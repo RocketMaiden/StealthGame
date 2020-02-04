@@ -20,6 +20,10 @@ namespace Assets.MVC.Scripts.Player.Controller
         }
         public void Tick()
         {
+            if (!PlayerStorage.ContainsItem(_modelGuid))
+            {
+                return;
+            }
             var model = PlayerStorage.GetItem(_modelGuid);
 
             var visability = model.PlayerVisibleTimer / model.TimeToSpotPlayer;
