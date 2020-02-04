@@ -10,6 +10,7 @@ using Assets.MVC.Scripts.Finish.Controller;
 using Assets.MVC.Scripts.GameLoop.View;
 using Assets.MVC.Scripts.GameLoop.Controller;
 using Assets.MVC.Scripts.Guard.Config;
+using Assets.MVC.Scripts.Player.Config;
 
 public class Core : MonoBehaviour
 {
@@ -18,8 +19,12 @@ public class Core : MonoBehaviour
 
     [SerializeField]
     private GuardView _guardView = null;
+
     [SerializeField]
     private GuardConfig _guardConfig = null;
+
+    [SerializeField]
+    private PlayerConfig _playerConfig = null;
 
     [SerializeField]
     private FinishView _finishView = null;
@@ -37,7 +42,7 @@ public class Core : MonoBehaviour
 
     private void Awake()
     {
-        _playerController = new PlayerController(_playerView);
+        _playerController = new PlayerController(_playerConfig, _playerView);
 
         _guardController = new GuardController(_guardConfig, _guardView);
 

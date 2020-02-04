@@ -1569,7 +1569,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 833508062}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -6, y: 0, z: 4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 501361906}
@@ -2251,6 +2251,7 @@ MonoBehaviour:
   _playerView: {fileID: 833508067}
   _guardView: {fileID: 388073594}
   _guardConfig: {fileID: 11400000, guid: 49c37ceab9240174fb9b5959f50547dd, type: 2}
+  _playerConfig: {fileID: 11400000, guid: a7745def0c6e49743a1cd6bf98b73e1e, type: 2}
   _finishView: {fileID: 101845628}
   _gameLoop: {fileID: 1210064549}
 --- !u!4 &1585115786

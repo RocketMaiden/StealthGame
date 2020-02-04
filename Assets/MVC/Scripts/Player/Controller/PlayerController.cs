@@ -1,5 +1,6 @@
 ﻿
 using Assets.MVC.Scripts.Ground.View;
+using Assets.MVC.Scripts.Player.Config;
 using Assets.MVC.Scripts.Player.Model;
 using Assets.MVC.Scripts.Player.View;
 using System;
@@ -12,9 +13,9 @@ namespace Assets.MVC.Scripts.Player.Controller
         private Guid _modelGuid;
         private IPlayerView _playerView;
 
-        public PlayerController(PlayerView view)
+        public PlayerController(IPlayerConfig config, IPlayerView view)
         {
-            _modelGuid = PlayerStorage.CreateModel();
+            _modelGuid = PlayerStorage.CreateModel(config);
             _playerView = view;
             
         }

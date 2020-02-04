@@ -1,4 +1,5 @@
 ﻿using Assets.MVC.Scripts.MapObject;
+using Assets.MVC.Scripts.Player.Config;
 using System;
 using UnityEngine;
 
@@ -18,18 +19,18 @@ namespace Assets.MVC.Scripts.Player.Model
 
         public bool IsSpotted { get; set; }
 
-        public PlayerModel(Vector3 position, Quaternion rotation)
+        public PlayerModel(IPlayerConfig config)
         {
             Guid = Guid.NewGuid();
             MapObjectType = MapObjectType.Player;
-
-            Position = position;
-            TargetPosition = position;
-            Rotation = rotation;
-
-            PlayerVisibleTimer = 0;
-            TimeToSpotPlayer = 0;
             IsSpotted = false;
+
+            Position = config.Position;
+            TargetPosition = config.TargetPosition;
+            Rotation = config.Rotation;
+            PlayerVisibleTimer = config.PlayerVisibleTimer;
+            TimeToSpotPlayer = config.TimeToSpotPlayer;
+            
         }
 
     }

@@ -1,6 +1,5 @@
 ﻿
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 namespace Assets.MVC.Scripts.Guard.Config
@@ -19,6 +18,10 @@ namespace Assets.MVC.Scripts.Guard.Config
         [SerializeField]
         private Vector3 _position = default;
         public Vector3 Position => _position;
+
+        [SerializeField]
+        private Vector3 _targetPosition = default;
+        public Vector3 TargetPosition => _targetPosition;
 
         [SerializeField]
         private Quaternion _rotation = default;

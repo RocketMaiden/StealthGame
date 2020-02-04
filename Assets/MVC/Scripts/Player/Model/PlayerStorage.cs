@@ -1,4 +1,5 @@
 ﻿using Assets.MVC.Scripts.MapObject;
+using Assets.MVC.Scripts.Player.Config;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,12 +13,9 @@ namespace Assets.MVC.Scripts.Player.Model
             return GetItem(MapObjectType.Player);
        }
 
-        public static Guid CreateModel()
+        public static Guid CreateModel(IPlayerConfig config)
         {            
-            var model = new PlayerModel(Vector3.zero, Quaternion.identity);
-           
-            model.PlayerVisibleTimer = 1;
-            model.TimeToSpotPlayer = 2;
+            var model = new PlayerModel(config);
 
             AddItem(model);
 

@@ -24,14 +24,14 @@ namespace Assets.MVC.Scripts.Guard.Model
         {
             Guid = Guid.NewGuid();
             MapObjectType = MapObjectType.Guard;
-            Rotation = Quaternion.identity;
+           
             Color = Color.green;
 
-
+            Rotation = config.Rotation;
             PatrolPath = config.PatrolPath;
             CurrentNode = config.CurrentNode;
-            Position = config.PatrolPath[config.CurrentNode];
-            TargetPosition = Position;
+            Position = config.Position;
+            TargetPosition = config.TargetPosition;
             VisionAngle = config.VisionAngle;
             VisionLength = config.VisionLength;
             LayerMask = config.LayerMask;
