@@ -2131,7 +2131,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!64 &1350045146
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -2254,6 +2254,8 @@ MonoBehaviour:
   _playerConfig: {fileID: 11400000, guid: a7745def0c6e49743a1cd6bf98b73e1e, type: 2}
   _finishView: {fileID: 101845628}
   _gameLoop: {fileID: 1210064549}
+  _nodePrefab: {fileID: 3426365844233614644, guid: df77aefe040c0af4881af3faacf35a84,
+    type: 3}
 --- !u!4 &1585115786
 Transform:
   m_ObjectHideFlags: 0

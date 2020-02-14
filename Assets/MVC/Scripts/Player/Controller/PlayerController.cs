@@ -3,6 +3,7 @@ using Assets.MVC.Scripts.Ground.View;
 using Assets.MVC.Scripts.Player.Config;
 using Assets.MVC.Scripts.Player.Model;
 using Assets.MVC.Scripts.Player.View;
+using Assets.MVC.Scripts.UserInput.Controller;
 using System;
 using UnityEngine;
 
@@ -37,6 +38,16 @@ namespace Assets.MVC.Scripts.Player.Controller
 
             if (!model.IsSpotted)
             {
+
+                if (InputModelStorage.IsClicked())
+                {
+                    var targetPoint = InputModelStorage.PopTargetIndex();
+
+                    _path = Pathfinder.GetPath(model.CurrentPoint, targetPoint);
+                }
+                //to do - remove input
+                //to do получить цель движения
+
                 if (Input.GetMouseButton(0))
                 {
                     var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -47,6 +58,8 @@ namespace Assets.MVC.Scripts.Player.Controller
                         {
                             model.TargetPosition = hitInfo.point;
 
+                            //передать эту позицию в конвертер вектор3-сетка
+                            //получить "ячейную" позицию
                         }
                     }
                 }
