@@ -14,40 +14,41 @@ using Assets.MVC.Scripts.Player.Config;
 using Assets.MVC.Scripts.Ground.Controller;
 using Assets.MVC.Scripts.Ground.Model;
 using Assets.MVC.Scripts.UserInput.Controller;
+using Assets.MVC.Scripts.Ground.Config;
+using Assets.MVC.Scripts.Ground.View;
 
 public class Core : MonoBehaviour
 {
+    [Header("Player")]
     [SerializeField]
     private PlayerView _playerView = null;
-
-    [SerializeField]
-    private GuardView _guardView = null;
-
-    [SerializeField]
-    private GuardConfig _guardConfig = null;
-
     [SerializeField]
     private PlayerConfig _playerConfig = null;
-
-    [SerializeField]
-    private FinishView _finishView = null;
-
-    [SerializeField]
-    private GameLoopView _gameLoop = null;
-
-    [SerializeField]
-    private GameObject _nodePrefab = null;
-
     private PlayerController _playerController;
+
+    [Header("Guard")]
+    [SerializeField]
+    private GuardView _guardView = null;
+    [SerializeField]
+    private GuardConfig _guardConfig = null;
     private GuardController _guardController;
-    private FinishController _finishConroller;
 
-    private GuardVisionSystem _guardVisionSystem;
-
-    private GameLoopController _gameLoopController;
-
+    [Header("Field")]
+    [SerializeField]
+    private FieldView _fieldView = null;
+    [SerializeField]
+    private FieldConfig _fieldConfig = null;
     private FieldController _fieldContrcoller;
 
+
+    [Header("GamePlay")]
+    [SerializeField]
+    private FinishView _finishView = null;
+    private FinishController _finishConroller;
+    [SerializeField]
+    private GameLoopView _gameLoop = null;
+    private GameLoopController _gameLoopController;
+    private GuardVisionSystem _guardVisionSystem;
     private UserInputSystem _userInputSystem;
     
 
@@ -65,7 +66,7 @@ public class Core : MonoBehaviour
 
         _gameLoopController = new GameLoopController(_gameLoop);
 
-        _fieldContrcoller = new FieldController(_nodePrefab);
+        _fieldContrcoller = new FieldController(_fieldConfig, _fieldView);
 
 
     }
@@ -89,6 +90,8 @@ public class Core : MonoBehaviour
         }
 
         _guardController.Tick();
+
+        _fieldContrcoller.Tick();
 
     }
 }

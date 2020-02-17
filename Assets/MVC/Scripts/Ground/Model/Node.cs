@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Assets.MVC.Scripts.Grid;
+using UnityEngine;
 namespace Assets.MVC.Scripts.Ground.Model
 {
     public enum NodeType
@@ -8,19 +9,7 @@ namespace Assets.MVC.Scripts.Ground.Model
         Start,
         Finish,
         None
-    }
-
-    public struct Point
-    {
-        public int X;
-        public int Y;
-
-        public Point(int x, int y)
-        {
-            X = x;
-            Y = y;
-        }
-    }
+    }   
 
     public class Node : MonoBehaviour
     {

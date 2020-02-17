@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using Assets.MVC.Scripts.Grid;
+using Assets.MVC.Scripts.Ground.Config;
+using UnityEngine;
 
 namespace Assets.MVC.Scripts.Ground.Model
 {
@@ -12,11 +14,13 @@ namespace Assets.MVC.Scripts.Ground.Model
         private int _width;
         private int _height;
 
-        public FieldModel(int width, int height)
+        public FieldModel(IFieldConfig config)
         {
-            _width = width;
-            _height = height;
+            _width = config.Width;
+            _height = config.Height;
             _field = new Node[_width, _height];
+            
+          
         }
 
         public void  AddNode(Node node)

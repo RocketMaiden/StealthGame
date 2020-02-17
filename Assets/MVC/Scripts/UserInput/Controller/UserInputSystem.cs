@@ -1,4 +1,5 @@
-﻿using Assets.MVC.Scripts.Ground.Model;
+﻿using Assets.MVC.Scripts.Grid;
+using Assets.MVC.Scripts.Ground.Model;
 using Assets.MVC.Scripts.Ground.View;
 using UnityEngine;
 
@@ -20,7 +21,7 @@ namespace Assets.MVC.Scripts.UserInput.Controller
                     {
                         Vector3 currentPosition = hitInfo.transform.position;
 
-                        Point gridIndex = ConvertToGrid(currentPosition);
+                        Point gridIndex = GridUtil.ConvertToGrid(currentPosition);
                         InputModelStorage.SetTargetIndex(gridIndex);
                         
                         //это в будущем будет точка финиша для пасфайндера
@@ -30,13 +31,7 @@ namespace Assets.MVC.Scripts.UserInput.Controller
             }
         }
 
-        private Point ConvertToGrid (Vector3 currentPosition)
-        {
-            Point gridPosition;
-            int gridStep = 1;
-            gridPosition.X = Mathf.FloorToInt(currentPosition.x / gridStep);
-            gridPosition.Y = Mathf.FloorToInt(currentPosition.y / gridStep);
-            return gridPosition;
-        }
+
+       
     }
 }

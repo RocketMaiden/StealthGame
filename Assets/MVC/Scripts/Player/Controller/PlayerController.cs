@@ -4,8 +4,11 @@ using Assets.MVC.Scripts.Player.Config;
 using Assets.MVC.Scripts.Player.Model;
 using Assets.MVC.Scripts.Player.View;
 using Assets.MVC.Scripts.UserInput.Controller;
+using System.Collections.Generic;
+using Assets.MVC.Scripts.Pathfinder;
 using System;
 using UnityEngine;
+using Assets.MVC.Scripts.Grid;
 
 namespace Assets.MVC.Scripts.Player.Controller
 {
@@ -22,6 +25,8 @@ namespace Assets.MVC.Scripts.Player.Controller
         }
         public void Tick()
         {
+            List<Point> _path;
+
             if (!PlayerStorage.ContainsItem(_modelGuid))
             {
                 return;
@@ -43,26 +48,13 @@ namespace Assets.MVC.Scripts.Player.Controller
                 {
                     var targetPoint = InputModelStorage.PopTargetIndex();
 
-                    _path = Pathfinder.GetPath(model.CurrentPoint, targetPoint);
-                }
-                //to do - remove input
+                    _path = PathfinderUtil.GetPath(model.GridPosition, targetPoint);
+                    //уточнить, является ли model.gridPosition = model.currentPosition
+                }                
+
                 //to do получить цель движения
 
-                if (Input.GetMouseButton(0))
-                {
-                    var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-                    if (Physics.Raycast(ray, out RaycastHit hitInfo))
-                    {
-                        var ground = hitInfo.transform.gameObject.GetComponent<IGroundView>();
-                        if (ground != null)
-                        {
-                            model.TargetPosition = hitInfo.point;
 
-                            //передать эту позицию в конвертер вектор3-сетка
-                            //получить "ячейную" позицию
-                        }
-                    }
-                }
 
                 if (Vector3.Distance(model.TargetPosition, model.Position) > 0.2f)
                 {
@@ -90,6 +82,18 @@ namespace Assets.MVC.Scripts.Player.Controller
 
                     model.Position += (model.Rotation * Vector3.forward) * movementSpeed;
                 }
+
+                //else
+                //{
+                //    //model.;
+                //    if (model.CurrentNode >= model.PatrolPath.Count)
+                //    {
+                //        model.CurrentNode = 0;
+                //    }
+                //    var target = model.PatrolPath[model.CurrentNode];
+                //    model.TargetPosition = target;
+                //}
+                //GuardStorage.UpdateItem(model);
             }
 
             PlayerStorage.UpdateItem(model);

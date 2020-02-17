@@ -46,8 +46,8 @@ namespace Assets.MVC.Scripts.Guard.Controller
                 var target = model.PatrolPath[model.CurrentNode];
                 model.TargetPosition = target;
             }
-
             GuardStorage.UpdateItem(model);
+
 
             _view.SetRotation(model.Rotation);
             _view.SetPosition(model.Position);

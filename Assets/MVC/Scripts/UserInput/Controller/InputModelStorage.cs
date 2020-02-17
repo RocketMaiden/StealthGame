@@ -1,4 +1,5 @@
-﻿using Assets.MVC.Scripts.Ground.Model;
+﻿using Assets.MVC.Scripts.Grid;
+using Assets.MVC.Scripts.Ground.Model;
 
 namespace Assets.MVC.Scripts.UserInput.Controller
 {

@@ -1,4 +1,5 @@
-﻿using Assets.MVC.Scripts.Guard.Config;
+﻿using Assets.MVC.Scripts.Grid;
+using Assets.MVC.Scripts.Guard.Config;
 using Assets.MVC.Scripts.MapObject;
 using System;
 using System.Collections.Generic;
@@ -19,6 +20,8 @@ namespace Assets.MVC.Scripts.Guard.Model
         public float VisionAngle { get; set; }       
         public Color Color { get; set; }
         public LayerMask LayerMask { get; set; }
+        public Point GridTargetPosition { get; set; }
+        public Point GridPosition { get; set; }
 
         public GuardModel(IGuardConfig config)
         {
@@ -35,6 +38,10 @@ namespace Assets.MVC.Scripts.Guard.Model
             VisionAngle = config.VisionAngle;
             VisionLength = config.VisionLength;
             LayerMask = config.LayerMask;
+
+            GridPosition = GridUtil.ConvertToGrid(Position);
+            GridTargetPosition = GridUtil.ConvertToGrid(TargetPosition);
+               
         }
     }
 }
