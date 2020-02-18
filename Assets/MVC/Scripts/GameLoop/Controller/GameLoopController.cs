@@ -1,5 +1,5 @@
-﻿using Assets.MVC.Scripts.Finish.Model;
-using Assets.MVC.Scripts.GameLoop.View;
+﻿using Assets.MVC.Scripts.GameLoop.View;
+using Assets.MVC.Scripts.Ground.Model;
 using Assets.MVC.Scripts.Guard.Model;
 using Assets.MVC.Scripts.Player.Model;
 using UnityEngine;
@@ -20,7 +20,7 @@ namespace Assets.MVC.Scripts.GameLoop.Controller
         public void Tick()
         {
             var players = PlayerStorage.GetPlayers();
-            var finishes = FinishStorage.GetFinishes();
+            var finish = FieldStorage.GetFinishes();
 
             foreach(var player in players)
             {
@@ -30,18 +30,15 @@ namespace Assets.MVC.Scripts.GameLoop.Controller
                     GameIsOver = true;
                 }
             }
-
-            foreach(var finish in finishes)
+            
+            if (finish.NodeIsTouched)
             {
-                if (finish.FinishIsTouched)
-                {
-                    _gameLoopView.ShowWinGame();
-                    GameIsOver = true;
-                }
+                _gameLoopView.ShowWinGame();
+                GameIsOver = true;
             }
+            
             if(GameIsOver)
             {
-                //todo reset game by spacebar
                 if (Input.GetKeyDown(KeyCode.Space))
                 {
                     Restart();                   
@@ -52,8 +49,7 @@ namespace Assets.MVC.Scripts.GameLoop.Controller
         private void Restart()
         {           
             PlayerStorage.Reset();
-            GuardStorage.Reset();
-            FinishStorage.Reset();
+            GuardStorage.Reset();            
             SceneManager.LoadScene(0, LoadSceneMode.Single);
         }
 

@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 3426365844233614601}
   - component: {fileID: 3426365844233614602}
   m_Layer: 0
-  m_Name: PassableNode
+  m_Name: PlayerSpawn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -61,7 +61,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 1eea028ee1b911945ac151a63ec04463, type: 2}
+  - {fileID: 2100000, guid: 6c014883a41138b458796631726f022f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -119,7 +119,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38eb7c7cc8567d347b7a353d9e550229, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Type: 0
+  Type: 2
   Parent: {fileID: 0}
   NodeIsTouched: 0
   PathType: 0

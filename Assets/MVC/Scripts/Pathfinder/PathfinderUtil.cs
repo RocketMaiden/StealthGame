@@ -1,4 +1,5 @@
 ﻿using Assets.MVC.Scripts.Grid;
+using Assets.MVC.Scripts.Ground.Model;
 using System.Collections.Generic;
 
 namespace Assets.MVC.Scripts.Pathfinder
@@ -7,7 +8,10 @@ namespace Assets.MVC.Scripts.Pathfinder
     {
         public static List<Point> GetPath(Point start, Point target)
         {
-            return new List<Point>();
+            FieldModel model = FieldStorage.GetField();
+
+
+            return new List<Point>() {target };
         }
     }
 }

@@ -26,10 +26,10 @@ namespace Assets.MVC.Scripts.Ground.Model
         public void  AddNode(Node node)
         {
             if (node.Point.X >= 0 || node.Point.X <= _width ||
-                node.Point.Y >= 0 || node.Point.Y <= _height &&
+                node.Point.Z >= 0 || node.Point.Z <= _height &&
                 node != null)
             {
-                _field[node.Point.X, node.Point.Y] = node;
+                _field[node.Point.X, node.Point.Z] = node;
             }
             else
             {
@@ -39,9 +39,9 @@ namespace Assets.MVC.Scripts.Ground.Model
         public Node GetNode(Point point)
         {
             if (point.X >= 0 || point.X <= _width||
-                point.Y >= 0 || point.Y <= _height)
+                point.Z >= 0 || point.Z <= _height)
             {
-                return _field[point.X, point.Y];
+                return _field[point.X, point.Z];
             }
             else
             {

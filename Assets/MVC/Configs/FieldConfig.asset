@@ -72,7 +72,7 @@ MonoBehaviour:
   - CellType: 0
     X: 8
     Y: 1
-  - CellType: 1
+  - CellType: 0
     X: 9
     Y: 1
   - CellType: 0
@@ -81,40 +81,40 @@ MonoBehaviour:
   - CellType: 0
     X: 1
     Y: 2
-  - CellType: 1
+  - CellType: 0
     X: 2
     Y: 2
   - CellType: 0
     X: 3
     Y: 2
-  - CellType: 1
+  - CellType: 0
     X: 4
     Y: 2
-  - CellType: 1
+  - CellType: 0
     X: 5
     Y: 2
   - CellType: 0
     X: 6
     Y: 2
-  - CellType: 1
+  - CellType: 0
     X: 7
     Y: 2
   - CellType: 0
     X: 8
     Y: 2
-  - CellType: 0
+  - CellType: 3
     X: 9
     Y: 2
-  - CellType: 0
+  - CellType: 2
     X: 0
     Y: 3
-  - CellType: 0
+  - CellType: 2
     X: 1
     Y: 3
   - CellType: 0
     X: 2
     Y: 3
-  - CellType: 1
+  - CellType: 0
     X: 3
     Y: 3
   - CellType: 0
@@ -123,7 +123,7 @@ MonoBehaviour:
   - CellType: 0
     X: 5
     Y: 3
-  - CellType: 1
+  - CellType: 0
     X: 6
     Y: 3
   - CellType: 0
@@ -132,25 +132,25 @@ MonoBehaviour:
   - CellType: 0
     X: 8
     Y: 3
-  - CellType: 1
+  - CellType: 0
     X: 9
     Y: 3
-  - CellType: 0
+  - CellType: 1
     X: 0
     Y: 4
-  - CellType: 0
+  - CellType: 2
     X: 1
     Y: 4
-  - CellType: 1
+  - CellType: 2
     X: 2
     Y: 4
   - CellType: 0
     X: 3
     Y: 4
-  - CellType: 1
+  - CellType: 0
     X: 4
     Y: 4
-  - CellType: 1
+  - CellType: 0
     X: 5
     Y: 4
   - CellType: 0
@@ -162,7 +162,7 @@ MonoBehaviour:
   - CellType: 0
     X: 8
     Y: 4
-  - CellType: 1
+  - CellType: 0
     X: 9
     Y: 4
   - CellType: 0

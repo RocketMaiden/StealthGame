@@ -1,5 +1,4 @@
 ﻿
-using Assets.MVC.Scripts.Ground.View;
 using Assets.MVC.Scripts.Player.Config;
 using Assets.MVC.Scripts.Player.Model;
 using Assets.MVC.Scripts.Player.View;
@@ -9,6 +8,7 @@ using Assets.MVC.Scripts.Pathfinder;
 using System;
 using UnityEngine;
 using Assets.MVC.Scripts.Grid;
+using Assets.MVC.Scripts.Ground.Model;
 
 namespace Assets.MVC.Scripts.Player.Controller
 {
@@ -20,18 +20,25 @@ namespace Assets.MVC.Scripts.Player.Controller
         public PlayerController(IPlayerConfig config, IPlayerView view)
         {
             _modelGuid = PlayerStorage.CreateModel(config);
-            _playerView = view;
-            
+            var model = PlayerStorage.GetItem(_modelGuid);
+
+            var position = FieldStorage.GetPlayerSpawn();
+
+            model.GridPosition =  position;
+            model.Position = GridUtil.ConvertPointToPosition(position);
+            model.GridTargetPosition = position;
+            model.TargetPosition = GridUtil.ConvertPointToPosition(position);
+
+            _playerView = view;            
         }
         public void Tick()
-        {
-            List<Point> _path;
-
+        {            
             if (!PlayerStorage.ContainsItem(_modelGuid))
             {
                 return;
             }
             var model = PlayerStorage.GetItem(_modelGuid);
+            model.GridPosition = GridUtil.ConvertToGrid(model.Position);
 
             var visability = model.PlayerVisibleTimer / model.TimeToSpotPlayer;
 
@@ -46,54 +53,61 @@ namespace Assets.MVC.Scripts.Player.Controller
 
                 if (InputModelStorage.IsClicked())
                 {
-                    var targetPoint = InputModelStorage.PopTargetIndex();
 
-                    _path = PathfinderUtil.GetPath(model.GridPosition, targetPoint);
-                    //уточнить, является ли model.gridPosition = model.currentPosition
-                }                
+                    //reset previous path data
+                    model.TargetPosition = model.Position;
+                    model.GridTargetPosition = model.GridPosition;
+                    model.CurrentNode = 0;
+
+                    //get new target
+                    model.Path = PathfinderUtil.GetPath(model.GridPosition, InputModelStorage.PopTargetIndex());                   
+                }
 
                 //to do получить цель движения
 
-
-
-                if (Vector3.Distance(model.TargetPosition, model.Position) > 0.2f)
+                if (model.Path != null && model.Path.Count > 0)
                 {
-                    Vector3 forward = model.TargetPosition - model.Position;
-
-                    var rotationTarget = Quaternion.LookRotation(forward);
-
-                    var angle = Quaternion.Angle(model.Rotation, rotationTarget);
-
-                    float rotationSpeed = 270f * Time.deltaTime;
-
-                    float movementSpeed = 5f * Time.deltaTime;
-
-
-                    if (angle <= rotationSpeed)
+                    if (Vector3.Distance(model.TargetPosition, model.Position) > 0.2f)
                     {
-                        model.Rotation = rotationTarget;
+                        Vector3 forward = model.TargetPosition - model.Position;
+
+                        var rotationTarget = Quaternion.LookRotation(forward);
+
+                        var angle = Quaternion.Angle(model.Rotation, rotationTarget);
+
+                        float rotationSpeed = 270f * Time.deltaTime;
+
+                        float movementSpeed = 5f * Time.deltaTime;
+
+
+                        if (angle <= rotationSpeed)
+                        {
+                            model.Rotation = rotationTarget;
+                        }
+                        else
+                        {
+                            model.Rotation = Quaternion.RotateTowards(model.Rotation, rotationTarget, rotationSpeed);
+
+                            movementSpeed *= 0.4f;
+                        }
+
+                        model.Position += (model.Rotation * Vector3.forward) * movementSpeed;
                     }
                     else
                     {
-                        model.Rotation = Quaternion.RotateTowards(model.Rotation, rotationTarget, rotationSpeed);
-
-                        movementSpeed *= 0.4f;
+                        if (model.CurrentNode < model.Path.Count)
+                        {
+                            var target = model.Path[model.CurrentNode];
+                            model.TargetPosition = GridUtil.ConvertPointToPosition(target);
+                            model.CurrentNode++;
+                        }
+                        else
+                        {
+                            model.CurrentNode = 0;
+                            model.Path = new List<Point>();
+                        }
                     }
-
-                    model.Position += (model.Rotation * Vector3.forward) * movementSpeed;
                 }
-
-                //else
-                //{
-                //    //model.;
-                //    if (model.CurrentNode >= model.PatrolPath.Count)
-                //    {
-                //        model.CurrentNode = 0;
-                //    }
-                //    var target = model.PatrolPath[model.CurrentNode];
-                //    model.TargetPosition = target;
-                //}
-                //GuardStorage.UpdateItem(model);
             }
 
             PlayerStorage.UpdateItem(model);

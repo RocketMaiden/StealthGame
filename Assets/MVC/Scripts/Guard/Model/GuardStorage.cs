@@ -1,4 +1,5 @@
-﻿using Assets.MVC.Scripts.Guard.Config;
+﻿using Assets.MVC.Scripts.Ground.Model;
+using Assets.MVC.Scripts.Guard.Config;
 using Assets.MVC.Scripts.MapObject;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,7 @@ namespace Assets.MVC.Scripts.Guard.Model
     {
         public static List<IGuardModel> GetGuards()
         {
-            return GetItem(MapObjectType.Guard);
+            return GetItem(NodeType.Guard);
         }
 
         public static Guid CreateModel(IGuardConfig config)

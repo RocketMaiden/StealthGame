@@ -5,14 +5,12 @@ using Assets.MVC.Scripts.Guard.Controller;
 using Assets.MVC.Scripts.Guard.View;
 
 using UnityEngine;
-using Assets.MVC.Scripts.Finish.View;
-using Assets.MVC.Scripts.Finish.Controller;
+
 using Assets.MVC.Scripts.GameLoop.View;
 using Assets.MVC.Scripts.GameLoop.Controller;
 using Assets.MVC.Scripts.Guard.Config;
 using Assets.MVC.Scripts.Player.Config;
 using Assets.MVC.Scripts.Ground.Controller;
-using Assets.MVC.Scripts.Ground.Model;
 using Assets.MVC.Scripts.UserInput.Controller;
 using Assets.MVC.Scripts.Ground.Config;
 using Assets.MVC.Scripts.Ground.View;
@@ -41,10 +39,7 @@ public class Core : MonoBehaviour
     private FieldController _fieldContrcoller;
 
 
-    [Header("GamePlay")]
-    [SerializeField]
-    private FinishView _finishView = null;
-    private FinishController _finishConroller;
+    [Header("GamePlay")] 
     [SerializeField]
     private GameLoopView _gameLoop = null;
     private GameLoopController _gameLoopController;
@@ -54,6 +49,8 @@ public class Core : MonoBehaviour
 
     private void Awake()
     {
+        _fieldContrcoller = new FieldController(_fieldConfig, _fieldView);
+
         _playerController = new PlayerController(_playerConfig, _playerView);
 
         _guardController = new GuardController(_guardConfig, _guardView);
@@ -62,12 +59,7 @@ public class Core : MonoBehaviour
 
         _userInputSystem = new UserInputSystem();
 
-        _finishConroller = new FinishController(_finishView);
-
         _gameLoopController = new GameLoopController(_gameLoop);
-
-        _fieldContrcoller = new FieldController(_fieldConfig, _fieldView);
-
 
     }
 
@@ -85,10 +77,9 @@ public class Core : MonoBehaviour
         {
             _userInputSystem.Tick();
             _guardVisionSystem.Tick();
-            _playerController.Tick();
-            _finishConroller.Tick();
+                      
         }
-
+        _playerController.Tick();
         _guardController.Tick();
 
         _fieldContrcoller.Tick();

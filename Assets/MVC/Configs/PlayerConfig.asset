@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4cb4a99cac0f09c44962800be1741813, type: 3}
   m_Name: PlayerConfig
   m_EditorClassIdentifier: 
-  _position: {x: -6, y: 0, z: 4}
-  _targetPosition: {x: -6, y: 0, z: 4}
+  _position: {x: 0, y: 0, z: 0}
+  _targetPosition: {x: 0, y: 0, z: 0}
   _rotation: {x: 0, y: 0, z: 0, w: 0}
   _playerVisibleTimer: 0
   _timeToSpotPlayer: 0.5

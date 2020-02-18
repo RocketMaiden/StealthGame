@@ -20,8 +20,9 @@ MonoBehaviour:
   - {x: 0, y: 0, z: -4}
   _currentNode: 0
   _position: {x: 3, y: 0, z: 0}
+  _targetPosition: {x: 0, y: 0, z: 0}
   _rotation: {x: 0, y: 0, z: 0, w: 0}
-  _visionLength: 10
+  _visionLength: 4
   _visionAngle: 45
   _layerMask:
     serializedVersion: 2

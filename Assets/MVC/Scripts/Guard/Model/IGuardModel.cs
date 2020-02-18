@@ -2,7 +2,7 @@
 
 namespace Assets.MVC.Scripts.Guard.Model
 {
-    public interface IGuardModel : IMapMovableModel, IGuardPatrolModel, IVisionModel
+    public interface IGuardModel : IMapMovableModel, IVisionModel
     {
     }
 }

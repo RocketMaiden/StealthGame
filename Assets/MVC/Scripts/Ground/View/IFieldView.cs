@@ -7,5 +7,7 @@ namespace Assets.MVC.Scripts.Ground.View
     {
         Node CreatePassableNode(Vector3 position);
         Node CreateImpassableNode(Vector3 position);
+        Node CreateExit(Vector3 position);
+        Node SpawnPlayer(Vector3 position);
     }
 }

@@ -1,7 +1,7 @@
-﻿using Assets.MVC.Scripts.Guard.Config;
+﻿using Assets.MVC.Scripts.Grid;
+using Assets.MVC.Scripts.Guard.Config;
 using Assets.MVC.Scripts.Guard.Model;
 using Assets.MVC.Scripts.Guard.View;
-using Assets.MVC.Scripts.MapObject;
 using System;
 using UnityEngine;
 
@@ -39,12 +39,13 @@ namespace Assets.MVC.Scripts.Guard.Controller
             else
             {
                 model.CurrentNode++;
-                if (model.CurrentNode >= model.PatrolPath.Count)
+                if (model.CurrentNode >= model.Path.Count)
                 {
                     model.CurrentNode = 0;
                 }
-                var target = model.PatrolPath[model.CurrentNode];
-                model.TargetPosition = target;
+                var target = model.Path[model.CurrentNode];
+                model.GridTargetPosition = target;
+                model.TargetPosition = GridUtil.ConvertPointToPosition(target);
             }
             GuardStorage.UpdateItem(model);
 

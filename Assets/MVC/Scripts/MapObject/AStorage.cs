@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Assets.MVC.Scripts.Ground.Model;
+using System;
 using System.Collections.Generic;
 
 namespace Assets.MVC.Scripts.MapObject
@@ -45,12 +46,12 @@ namespace Assets.MVC.Scripts.MapObject
             return _storage.ContainsKey(guid);           
         }
 
-        protected static List<T> GetItem(MapObjectType type)
+        protected static List<T> GetItem(NodeType type)
         {
             var result = new List<T>();
             foreach (var mapObject in _storage.Values)
             {
-                if (mapObject.MapObjectType == type)
+                if (mapObject.NodeType == type)
                 {
                     result.Add(mapObject);
                 }

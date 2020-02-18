@@ -1,8 +1,9 @@
-﻿using Assets.MVC.Scripts.MapObject;
+﻿using Assets.MVC.Scripts.Ground.Model;
+using Assets.MVC.Scripts.MapObject;
 using Assets.MVC.Scripts.Player.Config;
 using System;
 using System.Collections.Generic;
-using UnityEngine;
+
 
 namespace Assets.MVC.Scripts.Player.Model
 {
@@ -10,7 +11,7 @@ namespace Assets.MVC.Scripts.Player.Model
     {
        public static List<IPlayerModel> GetPlayers()
        {
-            return GetItem(MapObjectType.Player);
+            return GetItem(NodeType.Player);
        }
 
         public static Guid CreateModel(IPlayerConfig config)
