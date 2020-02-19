@@ -1,5 +1,6 @@
 ﻿using Assets.MVC.Scripts.Grid;
 using Assets.MVC.Scripts.Player.View;
+using UnityEditor;
 using UnityEngine;
 namespace Assets.MVC.Scripts.Ground.Model
 {
@@ -12,27 +13,16 @@ namespace Assets.MVC.Scripts.Ground.Model
         Player,
         Guard,
         None
-    }
-
-    //for pathfinder
-    public enum PathNodeType
-    {
-        Passable,
-        Impassable,
-        Start,
-        Finish,
-        None
     }    
 
     public class Node : MonoBehaviour
     {
         public NodeType Type;
-        public Node Parent;
+        public int PathValue;
 
         public bool NodeIsTouched;
 
-        public Point Point;
-        public PathNodeType PathType;
+        public Point Point;        
 
         private void OnTriggerEnter(Collider other)
         {            
@@ -40,6 +30,11 @@ namespace Assets.MVC.Scripts.Ground.Model
             {
                 NodeIsTouched = true;
             }
+        }
+
+        void OnDrawGizmos()
+        {
+            Handles.Label(transform.position, PathValue.ToString());
         }
 
 

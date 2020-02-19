@@ -26,11 +26,11 @@ namespace Assets.MVC.Scripts.Guard.Controller
             }
             var model = GuardStorage.GetItem(_modelGuid);
 
-            float movementSpeed = 2f * Time.deltaTime;
-            float rotationSpeed = 270f * Time.deltaTime;
-
             if (Vector3.Distance(model.TargetPosition, model.Position) > 0.2f)
             {
+                float movementSpeed = 2f * Time.deltaTime;
+                float rotationSpeed = 270f * Time.deltaTime;
+
                 Vector3 forward = model.TargetPosition - model.Position;
                 var rotationTarget = Quaternion.LookRotation(forward);
                 model.Position = Vector3.MoveTowards(model.Position, model.TargetPosition, movementSpeed);

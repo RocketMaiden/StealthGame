@@ -1,26 +1,21 @@
 ﻿using Assets.MVC.Scripts.Grid;
 using Assets.MVC.Scripts.Ground.Config;
+using System;
 using UnityEngine;
 
 namespace Assets.MVC.Scripts.Ground.Model
 {
     public struct FieldModel
     {
-        public int Width => _width;
-        public int Height => _height;
-        public Node[,] Field => _field;
-
-        private Node[,] _field;
-        private int _width;
-        private int _height;
+        public int Width { get; }
+        public int Height { get; }
+        public Node[,] Field { get; }
 
         public FieldModel(IFieldConfig config)
         {
-            _width = config.Width;
-            _height = config.Height;
-            _field = new Node[_width, _height];
-            
-          
+            Width = config.Width;
+            Height = config.Height;
+            Field = new Node[Width, Height];
         }
 
         public void  SetNode(Node node)
@@ -28,30 +23,64 @@ namespace Assets.MVC.Scripts.Ground.Model
             if(node == null)
             {
                 Debug.LogError("why u wanna add null node to me bro!?");
+                return;
             }
-            if (node.Point.X < 0 || node.Point.X >= _width ||
-                node.Point.Z < 0 || node.Point.Z >= _height)
+            if (IsValidNode(node.Point))
             {
-                Debug.LogError("you are trying to add a node that has its coordinates out of range or your node doesn't exist in a first place");                
+                Field[node.Point.X, node.Point.Z] = node;                
             }
             else
             {
-                _field[node.Point.X, node.Point.Z] = node;
+                Debug.LogError("you are trying to add a node that has its coordinates out of range or your node doesn't exist in a first place");
             }
         }
+
+        public void SetNodeValue(Point point, int value)
+        {
+            if (IsValidNode(point))
+            {
+                Field[point.X, point.Z].PathValue = value;
+            }
+            else
+            {
+                Debug.LogError("you are trying to SetNodeValue to the node that has its coordinates out of range or your node doesn't exist in a first place");
+            }
+        }
+
+        public int GetNodeValue(Point point)
+        {
+            if (IsValidNode(point))
+            {
+                return Field[point.X, point.Z].PathValue;
+            }
+            else
+            {
+                Debug.LogError("you are trying to SetNodeValue to the node that has its coordinates out of range or your node doesn't exist in a first place");
+                return int.MinValue;
+            }
+        }
+
         public Node GetNode(Point point)
         {
-            if (point.X < 0 || point.X >= _width||
-                point.Z < 0 || point.Z >= _height)
+            if (IsValidNode(point))
+            {
+                return Field[point.X, point.Z]; 
+            }
+            else
             {
                 Debug.LogError("point coordinates are out of range");
                 return null;
-                
             }
-            else
+        }
+
+        public bool IsValidNode(Point point)
+        {
+            if (point.X < 0 || point.X >= Width ||
+                point.Z < 0 || point.Z >= Height)
             {
-                return _field[point.X, point.Z];
-            }
+                return false;
+            }           
+            return true;
         }
     }
 }

@@ -2,176 +2,137 @@
 using Assets.MVC.Scripts.Ground.Model;
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace Assets.MVC.Scripts.Pathfinder
 {
     public static class PathfinderUtil
     {
+        private const int EmptyNode = -1;
+        private const int StartNode = 0;
+
+        private static FieldModel _model;
+       
         public static List<Point> GetPath(Point start, Point target)
-        {            
-            List<Point> localPath = new List<Point>();
-            FieldModel model = FieldStorage.GetField();
+        {
+            _model = FieldStorage.GetField();
+            ClearField();
 
-            SetNode(start, PathNodeType.Start, model);
-            SetNode(target, PathNodeType.Finish, model);
-
-            Node nodeFinish = GoFindEndNodeWithParent(start, model);
-            if (nodeFinish == null)
+            if (!_model.IsValidNode(start) || !_model.IsValidNode(target))
             {
-                //это ранний выход с валидными данными: в случае, если не существует пути к финишу
-                //путь состоит только из старта, и запрашивающий этот путь останется стоять на своем месте и ему не нужно будет делать проверку на null
-                ClearField(model);
-                return new List<Point> { start };
-            }
-            while (true)
-            {                
-                localPath.Add(nodeFinish.Point);
-
-                //parent может не существовать только у старта, тоесть мы с конца в начало пройдем по всем точками пути способом подмены 
-                if (nodeFinish.Parent == null)
-                {
-                    break;
-                }                
-                nodeFinish = nodeFinish.Parent;
+                Debug.LogError("Invalide node point");
+                //fallback state
+                return new List<Point>() { start };
             }
             
-            localPath.Reverse();            
-            ClearField(model);
-            return localPath;
+            List<Point> result = new List<Point>();
+
+            _model.SetNodeValue(start, StartNode);            
+
+            PreProcessField(new List<Point> { start }, StartNode);
+
+            int currentPathValue = _model.GetNodeValue(target);
+            if(currentPathValue == EmptyNode)
+            {
+                Debug.LogError("path not found");
+                //fallback state
+                return new List<Point>() { start };
+            }
+
+            var currentPathPoint = target;
+            result.Add(target);
+            for (var i = currentPathValue-1; i > 0; i-- )
+            {   
+                var surround = GetSurround(currentPathPoint, i);
+                currentPathPoint = surround[0];
+                result.Add(currentPathPoint);
+            }
+
+            result.Reverse();
+
+            return result;
         }
 
-        private static void ClearField(FieldModel model)
-        {           
-            for (int x = 0; x < model.Width; x++)
+        private static void PreProcessField(List<Point> wave, int currentValue)
+        {
+            List<Point> newWave = new List<Point>();
+            foreach(var point in wave)
             {
-                for (int z = 0; z < model.Height; z++)
+                if (!_model.IsValidNode(point))
                 {
-                    var node = model.GetNode(new Point(x, z));
-                    node.Parent = null;
-                    if( node.PathType == PathNodeType.Start || node.PathType == PathNodeType.Finish)
-                    {
-                        node.PathType = PathNodeType.Passable;
-                    }
-                    model.SetNode(node);
+                    continue;
+                }
+                
+                _model.SetNodeValue(point, currentValue);
+
+                newWave.AddRange(GetSurround(point, EmptyNode));                
+            }
+
+            if(newWave.Count == 0)
+            {
+                return;
+            }
+
+            PreProcessField(newWave, ++currentValue);
+        }
+
+        private static List<Point> GetSurround(Point point, int validPathValue)
+        {
+            var result = new List<Point>();
+
+            if(IsValidPathNode(point.X + 1, point.Z, validPathValue))
+            {
+                result.Add(new Point(point.X + 1, point.Z));
+            }
+            if (IsValidPathNode(point.X - 1, point.Z, validPathValue))
+            {
+                result.Add(new Point(point.X - 1, point.Z));
+            }
+            if (IsValidPathNode(point.X, point.Z + 1, validPathValue))
+            {
+                result.Add(new Point(point.X, point.Z + 1));
+            }
+            if (IsValidPathNode(point.X, point.Z - 1, validPathValue))
+            {
+                result.Add(new Point(point.X, point.Z - 1));
+            }
+
+            return result;
+        }
+
+        private static void ClearField()
+        {           
+            for (int x = 0; x < _model.Width; x++)
+            {
+                for (int z = 0; z < _model.Height; z++)
+                {
+                    var node = _model.GetNode(new Point(x, z));
+                    node.PathValue = EmptyNode;
+                    _model.SetNode(node);
                 }
             }            
         }
-
-
-        private static void SetNode(Point point, PathNodeType type, FieldModel model)
-        {           
-            Node selectedNode = model.GetNode(point);
-            selectedNode.PathType = type;
-            model.SetNode(selectedNode);            
+        private static bool IsValidPathNode(int x, int y, int validPathValue)
+        {
+            return IsValidPathNode(new Point(x, y), validPathValue);
         }
-        private static Node GoFindEndNodeWithParent(Point current, FieldModel model)
-        {            
-            List<Point> _surroundPoints = new List<Point>();
 
-            Point rightNeighbour = new Point();
-            rightNeighbour.X = current.X;
-            rightNeighbour.Z = current.Z + 1;
-
-            if (IsItSurround(rightNeighbour, current, model))
+        private static bool IsValidPathNode(Point point, int validPathValue)
+        {
+            if (!_model.IsValidNode(point))
             {
-                Node rightNeighbourNode = model.GetNode(rightNeighbour);
-                if (rightNeighbourNode.PathType == PathNodeType.Finish)
-                {
-                    //if we find end we return endNode with its already filled parent info
-                    return rightNeighbourNode;
-                }
-                _surroundPoints.Add(rightNeighbour);
+                return false;
             }
-
-            //check next neighbour
-            Point leftNeighbour = new Point();
-            leftNeighbour.X = current.X;
-            leftNeighbour.Z = current.Z - 1;
-
-            if (IsItSurround(leftNeighbour, current, model))
+            var node = _model.GetNode(point);
+            if(node.Type == NodeType.Impassable)
             {
-                Node leftNeighbourNode = model.GetNode(leftNeighbour);
-                if (leftNeighbourNode.PathType == PathNodeType.Finish)
-                {
-                    //if we find end we return endNode with its already filled parent info
-                    return leftNeighbourNode;
-                }
-                _surroundPoints.Add(leftNeighbour);
+                return false;
             }
-
-            //check next neighbour
-            Point upNeighbour = new Point();
-            upNeighbour.X = current.X - 1;
-            upNeighbour.Z = current.Z;
-
-            if (IsItSurround(upNeighbour, current, model))
+            if (node.PathValue == validPathValue)
             {
-                Node upNeighbourNode = model.GetNode(upNeighbour);
-                if (upNeighbourNode.PathType == PathNodeType.Finish)
-                {
-                    //if we find end we return endNode with its already filled parent info
-                    return upNeighbourNode;
-                }
-                _surroundPoints.Add(upNeighbour);
-            }
-
-            //check next neighbour
-            Point downNeighbour = new Point();
-            downNeighbour.X = current.X + 1;
-            downNeighbour.Z = current.Z;
-
-            if (IsItSurround(downNeighbour, current, model))
-            {
-                Node downNeighbourNode = model.GetNode(downNeighbour);
-                if (downNeighbourNode.PathType == PathNodeType.Finish)
-                {
-                    //if we find end we return endNode with its already filled parent info
-                    return downNeighbourNode;
-                }
-                _surroundPoints.Add(downNeighbour);
-            }
-
-            //recursively check nodes for endNode from selected previously
-            for (int index = 0; index < _surroundPoints.Count; index++)
-            {
-                Node node = GoFindEndNodeWithParent(_surroundPoints[index], model);
-                if (node != null)
-                {
-                    return node;
-                }
-            }
-
-            return null;
-        }
-        private static bool IsItSurround(Point point, Point current, FieldModel model)
-        {            
-            if (IsPointValid(point, model))
-            {
-                Node testedNode = model.GetNode(point);
-                Node currentNode = model.GetNode(current);
-                testedNode.Parent = currentNode;
-                model.SetNode(testedNode);                
                 return true;
             }
             return false;
-        }
-        private static bool IsPointValid(Point point, FieldModel model)
-        {            
-
-            if (point.X < 0 || point.X >= model.Width ||
-                point.Z < 0 || point.Z >= model.Height)
-            {
-                return false;
-            }
-            if (model.Field[point.X, point.Z].PathType == PathNodeType.Impassable || model.Field[point.X, point.Z].PathType == PathNodeType.Start)
-            {
-                return false;
-            }
-            if (model.Field[point.X, point.Z].Parent != null)
-            {
-                return false;
-            }
-            return true;
         }
     }
 }

@@ -67,29 +67,13 @@ namespace Assets.MVC.Scripts.Player.Controller
                 {
                     if (Vector3.Distance(model.TargetPosition, model.Position) > 0.2f)
                     {
-                        Vector3 forward = model.TargetPosition - model.Position;
-
-                        var rotationTarget = Quaternion.LookRotation(forward);
-
-                        var angle = Quaternion.Angle(model.Rotation, rotationTarget);
-
+                        float movementSpeed = 2f * Time.deltaTime;
                         float rotationSpeed = 270f * Time.deltaTime;
 
-                        float movementSpeed = 5f * Time.deltaTime;
-
-
-                        if (angle <= rotationSpeed)
-                        {
-                            model.Rotation = rotationTarget;
-                        }
-                        else
-                        {
-                            model.Rotation = Quaternion.RotateTowards(model.Rotation, rotationTarget, rotationSpeed);
-
-                            movementSpeed *= 0.4f;
-                        }
-
-                        model.Position += (model.Rotation * Vector3.forward) * movementSpeed;
+                        Vector3 forward = model.TargetPosition - model.Position;
+                        var rotationTarget = Quaternion.LookRotation(forward);
+                        model.Position = Vector3.MoveTowards(model.Position, model.TargetPosition, movementSpeed);
+                        model.Rotation = Quaternion.RotateTowards(model.Rotation, rotationTarget, rotationSpeed);
                     }
                     else
                     {
