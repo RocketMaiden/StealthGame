@@ -23,30 +23,34 @@ namespace Assets.MVC.Scripts.Ground.Model
           
         }
 
-        public void  AddNode(Node node)
+        public void  SetNode(Node node)
         {
-            if (node.Point.X >= 0 || node.Point.X <= _width ||
-                node.Point.Z >= 0 || node.Point.Z <= _height &&
-                node != null)
+            if(node == null)
             {
-                _field[node.Point.X, node.Point.Z] = node;
+                Debug.LogError("why u wanna add null node to me bro!?");
+            }
+            if (node.Point.X < 0 || node.Point.X >= _width ||
+                node.Point.Z < 0 || node.Point.Z >= _height)
+            {
+                Debug.LogError("you are trying to add a node that has its coordinates out of range or your node doesn't exist in a first place");                
             }
             else
             {
-                Debug.Log("you are trying to add a node that has its coordinates out of range or your node doesn't exist in a first place");
+                _field[node.Point.X, node.Point.Z] = node;
             }
         }
         public Node GetNode(Point point)
         {
-            if (point.X >= 0 || point.X <= _width||
-                point.Z >= 0 || point.Z <= _height)
+            if (point.X < 0 || point.X >= _width||
+                point.Z < 0 || point.Z >= _height)
             {
-                return _field[point.X, point.Z];
+                Debug.LogError("point coordinates are out of range");
+                return null;
+                
             }
             else
             {
-                Debug.Log("point coordinates are out of range");
-                return null;
+                return _field[point.X, point.Z];
             }
         }
     }

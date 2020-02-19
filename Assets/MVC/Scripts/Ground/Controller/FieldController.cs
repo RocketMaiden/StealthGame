@@ -8,9 +8,6 @@ namespace Assets.MVC.Scripts.Ground.Controller
 {
     public class FieldController
     {
-
-        
-
         public FieldController(FieldConfig config, IFieldView view)
         {
             var _fieldModel = new FieldModel(config);            
@@ -38,7 +35,7 @@ namespace Assets.MVC.Scripts.Ground.Controller
                 }                
                 node.Point.X = fieldCell.X;
                 node.Point.Z = fieldCell.Y;
-                _fieldModel.AddNode(node);                
+                _fieldModel.SetNode(node);                
             }
 
             FieldStorage.UpdateField(_fieldModel);

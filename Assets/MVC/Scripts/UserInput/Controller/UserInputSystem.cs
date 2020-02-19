@@ -1,5 +1,4 @@
 ﻿using Assets.MVC.Scripts.Grid;
-using Assets.MVC.Scripts.Ground.Model;
 using Assets.MVC.Scripts.Ground.View;
 using UnityEngine;
 
@@ -8,8 +7,7 @@ namespace Assets.MVC.Scripts.UserInput.Controller
     public class UserInputSystem
     {
         public void Tick()
-        {
-            var model = FieldStorage.GetField();
+        {           
 
             if (Input.GetMouseButton(0))
             {
@@ -24,14 +22,10 @@ namespace Assets.MVC.Scripts.UserInput.Controller
                         Point gridIndex = GridUtil.ConvertToGrid(currentPosition);
                         InputModelStorage.SetTargetIndex(gridIndex);
                         
-                        //это в будущем будет точка финиша для пасфайндера
-                        
+                        //это в будущем будет точка финиша для пасфайндера                        
                     }
                 }
             }
         }
-
-
-       
     }
 }

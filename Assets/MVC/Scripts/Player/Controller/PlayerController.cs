@@ -50,10 +50,8 @@ namespace Assets.MVC.Scripts.Player.Controller
 
             if (!model.IsSpotted)
             {
-
                 if (InputModelStorage.IsClicked())
                 {
-
                     //reset previous path data
                     model.TargetPosition = model.Position;
                     model.GridTargetPosition = model.GridPosition;
