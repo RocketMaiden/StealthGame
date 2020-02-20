@@ -32,7 +32,7 @@ namespace Assets.MVC.Scripts.Ground.Config
             }
 
             int n = 0;
-            for (var y = 0; y < fieldConfig.Height; y++)
+            for (var y = fieldConfig.Height-1; y >= 0; y--)
             {
                 GUILayout.BeginHorizontal();
                 for (var x = 0; x < fieldConfig.Width; x++)

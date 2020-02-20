@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3426365844233614600}
   - component: {fileID: 3426365844233614601}
   - component: {fileID: 3426365844233614602}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: ImpassableNode
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -72,9 +72,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Type: 1
-  Parent: {fileID: 0}
+  PathValue: 0
   NodeIsTouched: 0
-  PathType: 1
 --- !u!1 &4025416161187481763
 GameObject:
   m_ObjectHideFlags: 0
@@ -86,7 +85,7 @@ GameObject:
   - component: {fileID: 2116601845997917965}
   - component: {fileID: 8616165557911125485}
   - component: {fileID: 5616473200241578514}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Model
   m_TagString: Untagged
   m_Icon: {fileID: 0}

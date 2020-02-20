@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Assets.MVC.Scripts.Grid
 {
+    [Serializable]
     public struct Point
     {
         public int X;
