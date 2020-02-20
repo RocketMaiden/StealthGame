@@ -1,6 +1,5 @@
 ﻿using Assets.MVC.Scripts.Grid;
 using Assets.MVC.Scripts.Ground.Model;
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -15,9 +14,11 @@ namespace Assets.MVC.Scripts.Pathfinder
        
         public static List<Point> GetPath(Point start, Point target)
         {
+            //init
             _model = FieldStorage.GetField();
             ClearField();
-
+            //////////////////////
+            ///
             if (!_model.IsValidNode(start) || !_model.IsValidNode(target))
             {
                 Debug.LogError("Invalide node point");
@@ -27,9 +28,14 @@ namespace Assets.MVC.Scripts.Pathfinder
             
             List<Point> result = new List<Point>();
 
-            _model.SetNodeValue(start, StartNode);            
+            //set start
+            _model.SetNodeValue(start, StartNode);   
+            //////////////////
 
+
+            //process
             PreProcessField(new List<Point> { start }, StartNode);
+            //////////////////
 
             int currentPathValue = _model.GetNodeValue(target);
             if(currentPathValue == EmptyNode)
@@ -40,7 +46,7 @@ namespace Assets.MVC.Scripts.Pathfinder
             }
 
             var currentPathPoint = target;
-            result.Add(target);
+            result.Add(currentPathPoint);
             for (var i = currentPathValue-1; i > 0; i-- )
             {   
                 var surround = GetSurround(currentPathPoint, i);
